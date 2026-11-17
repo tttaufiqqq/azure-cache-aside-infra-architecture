@@ -14,12 +14,14 @@ az deployment operation group list \
 ```
 
 ![Azure CLI output listing the deployments and the failed operation status](../screenshots/06-deployment-failed.png)
+*Azure CLI output listing the deployments and the failed operation status.*
 
 ## The deploy script window closes
 
 **Symptom:** You run `./scripts/deploy.sh` in PowerShell, a Git Bash window opens, and it closes before you can read the result.
 
 ![Git Bash window that opens when the deploy script runs from PowerShell](../screenshots/05-deploy-script-git-bash-window.png)
+*Git Bash window that opens when the deploy script runs from PowerShell.*
 
 **Fix:** Check the result from PowerShell.
 
@@ -38,6 +40,7 @@ To watch the output live, run `az deployment group create` directly, as describe
 1. Try the next size by setting `redisSku` to `Balanced_B1` in `main.bicepparam`.
 
    ![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](../screenshots/07-redis-sku-b1-retry.png)
+   *Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia.*
 
 1. If that fails too, change `location` to another region that supports Azure Managed Redis.
 1. Because existing resources can't move, delete the resource group before you deploy to a different region.

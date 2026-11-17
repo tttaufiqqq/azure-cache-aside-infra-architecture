@@ -7,6 +7,7 @@ This article shows how to deploy the infrastructure, change it, and delete it.
 - Sign in with `az login`.
 
   ![Azure CLI az login output with the tenant and subscription selection](../screenshots/01-az-login.png)
+  *Azure CLI az login output with the tenant and subscription selection.*
 
 - Select your subscription with `az account set --subscription "<name>"`.
 - Register the required resource providers once per subscription.
@@ -16,10 +17,12 @@ This article shows how to deploy the infrastructure, change it, and delete it.
   ```
 
   ![Azure CLI output showing the foreach loop that registers the resource providers](../screenshots/02-register-providers.png)
+  *Azure CLI output showing the foreach loop that registers the resource providers.*
 
   Registration can take a few minutes. Check each provider with `az provider show -n <name> --query registrationState -o tsv`.
 
   ![Azure CLI output showing each provider state with Microsoft.Cache registered](../screenshots/03-providers-registered.png)
+  *Azure CLI output showing each provider state with Microsoft.Cache registered.*
 
 - Confirm that Azure Managed Redis and your chosen SKUs have capacity in the target region. Capacity is only checked at deployment time.
 
@@ -47,6 +50,7 @@ The script:
 If you run the bash script from PowerShell, it opens its own Git Bash window and the output disappears when the script ends. Run the commands directly instead.
 
 ![Git Bash window that opens when the deploy script runs from PowerShell](../screenshots/05-deploy-script-git-bash-window.png)
+*Git Bash window that opens when the deploy script runs from PowerShell.*
 
 ```powershell
 az group create --name rg-cache-aside-lab --location malaysiawest
@@ -78,6 +82,7 @@ RESOURCE_GROUP=my-rg LOCATION=eastasia ./scripts/deploy.sh
 > You can't change the region of existing resources by redeploying. To switch regions, destroy the resource group first.
 
 ![Azure CLI output showing the resource group recreated in Malaysia West](../screenshots/08-move-to-malaysia-west.png)
+*Azure CLI output showing the resource group recreated in Malaysia West.*
 
 ## Use the outputs
 
@@ -88,6 +93,7 @@ az deployment group show -g rg-cache-aside-lab -n cache-aside --query properties
 ```
 
 ![Azure CLI output showing the deployment outputs including the Redis SKU and tags](../screenshots/09-deployment-outputs.png)
+*Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
 The `cache-aside-app` repository reads `appName` to deploy the app.
 

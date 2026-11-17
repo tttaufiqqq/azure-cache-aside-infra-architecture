@@ -5,9 +5,10 @@ This is a learning project. It implements the architecture from the Azure Archit
 > [!NOTE]
 > This is a personal learning implementation. It is not official Microsoft guidance.
 
-This repository contains the Azure infrastructure. The web app lives in a separate repository, `cache-aside-app`.
+This repository contains the Azure infrastructure. The web app lives in a separate repository, [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app).
 
 ![Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL](diagrams/architecture.png)
+*Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL.*
 
 Diagram adapted from the [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/cache-aside-azure-managed-redis-postgresql).
 
@@ -57,7 +58,7 @@ az login
 
    The script previews the changes and asks for confirmation before it deploys.
 
-1. Deploy the web app by following the `cache-aside-app` repository.
+1. Deploy the web app by following the [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app) repository.
 
 1. Delete everything when you finish.
 
@@ -82,7 +83,7 @@ The scripts are bash scripts, so PowerShell hands them to Git Bash, which closes
    az deployment group show -g rg-cache-aside-lab -n cache-aside --query properties.outputs
    ```
 
-1. Deploy the web app by following the `cache-aside-app` repository.
+1. Deploy the web app by following the [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app) repository.
 
 1. Delete everything when you finish.
 
@@ -102,14 +103,18 @@ The deployment creates about two dozen resources and takes around 10 minutes, an
 ### Sign in and register the providers
 
 ![Azure CLI az login output with the tenant and subscription selection](screenshots/01-az-login.png)
+*Azure CLI az login output with the tenant and subscription selection.*
 
 ![Azure CLI output showing the foreach loop that registers the resource providers](screenshots/02-register-providers.png)
+*Azure CLI output showing the foreach loop that registers the resource providers.*
 
 ![Azure CLI output showing each provider state with Microsoft.Cache registered](screenshots/03-providers-registered.png)
+*Azure CLI output showing each provider state with Microsoft.Cache registered.*
 
 Registration can take a few minutes. `Microsoft.Cache` and `Microsoft.DBforPostgreSQL` were the slowest.
 
 ![PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering](screenshots/04-provider-registration-progress.png)
+*PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering.*
 
 ### The first deploy attempt
 
@@ -118,24 +123,29 @@ The `what-if` preview lists only the first eight resources. The nested modules f
 Running the deploy script from PowerShell opens a separate Git Bash window that closes when the script ends, so the output disappears.
 
 ![Git Bash window that opens when the deploy script runs from PowerShell](screenshots/05-deploy-script-git-bash-window.png)
+*Git Bash window that opens when the deploy script runs from PowerShell.*
 
 Listing the deployments from PowerShell shows the module deployments succeeded while the main deployment failed.
 
 ![Azure CLI output listing the deployments and the failed operation status](screenshots/06-deployment-failed.png)
+*Azure CLI output listing the deployments and the failed operation status.*
 
 ### Capacity error in Southeast Asia
 
 Azure rejected `Balanced_B0` in Southeast Asia with `CacheCapacityUnavailable`, and the next size up, `Balanced_B1`, failed the same way.
 
 ![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](screenshots/07-redis-sku-b1-retry.png)
+*Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia.*
 
 The fix was to move the deployment to Malaysia West. Existing resources can't change region, so the resource group was deleted and recreated.
 
 ![Azure CLI output showing the resource group recreated in Malaysia West](screenshots/08-move-to-malaysia-west.png)
+*Azure CLI output showing the resource group recreated in Malaysia West.*
 
 ### Successful deployment
 
 ![Azure CLI output showing the deployment outputs including the Redis SKU and tags](screenshots/09-deployment-outputs.png)
+*Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
 ## Differences from the reference architecture
 
@@ -155,7 +165,7 @@ The fix was to move the deployment to Malaysia West. Existing resources can't ch
 
 ## Related resources
 
-- `cache-aside-app`: the web app repository
+- [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app): the web app repository
 - [Implementation log](docs/implementation-log.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Azure Architecture Center article](https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/cache-aside-azure-managed-redis-postgresql)

@@ -39,6 +39,7 @@ Implement the [Azure Architecture Center cache-aside architecture](https://learn
 The outputs from step 8 include the Redis SKU and the resource tags.
 
 ![Azure CLI output showing the deployment outputs including the Redis SKU and tags](../screenshots/09-deployment-outputs.png)
+*Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
 ## Problems and fixes
 
@@ -47,6 +48,7 @@ The outputs from step 8 include the Redis SKU and the resource tags.
 The `for p in ...; do ... done` loop is bash syntax, and PowerShell rejected it. The fix was the PowerShell `foreach` loop in [Deploy, redeploy, and destroy](deploy.md). Two providers, `Microsoft.Cache` and `Microsoft.DBforPostgreSQL`, took a short while to reach `Registered`.
 
 ![PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering](../screenshots/04-provider-registration-progress.png)
+*PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering.*
 
 ### The what-if preview was incomplete
 
@@ -57,20 +59,24 @@ The preview listed eight resources to create. The postgres, redis, private-endpo
 PowerShell passed the bash script to Git Bash, which opened its own window and closed it when the script ended. The result was only visible by running `az deployment group list` afterward. Running `az deployment group create` directly in PowerShell avoids the problem.
 
 ![Git Bash window that opens when the deploy script runs from PowerShell](../screenshots/05-deploy-script-git-bash-window.png)
+*Git Bash window that opens when the deploy script runs from PowerShell.*
 
 ![Azure CLI output listing the deployments and the failed operation status](../screenshots/06-deployment-failed.png)
+*Azure CLI output listing the deployments and the failed operation status.*
 
 ### Redis capacity in Southeast Asia
 
 Azure rejected `Balanced_B0` and then `Balanced_B1` with `CacheCapacityUnavailable`. Capacity is limited per region and per SKU, and `what-if` can't detect it. Azure Managed Redis supports Malaysia West, so the deployment moved there.
 
 ![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](../screenshots/07-redis-sku-b1-retry.png)
+*Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia.*
 
 ### Changing region requires a clean start
 
 Existing resources can't change region through a redeployment. The resource group was deleted before the Malaysia West deployment, and the same resource names were reused because the suffix comes from the resource group ID.
 
 ![Azure CLI output showing the resource group recreated in Malaysia West](../screenshots/08-move-to-malaysia-west.png)
+*Azure CLI output showing the resource group recreated in Malaysia West.*
 
 ## What worked
 
