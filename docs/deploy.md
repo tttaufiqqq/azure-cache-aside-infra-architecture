@@ -111,11 +111,27 @@ The script asks you to type the resource group name, then runs `az group delete 
 az group delete --name rg-cache-aside-lab --yes
 ```
 
+![Azure CLI output showing the resource group deletion in progress](../screenshots/11-delete-group-in-progress.png)
+*Azure CLI output showing the resource group deletion in progress.*
+
+The portal shows the group in the Deleting state while its resources are removed.
+
+![Azure portal showing the resource group and its resources while deletion is in progress](../screenshots/12-portal-group-deleting.png)
+*Azure portal showing the resource group and its resources while deletion is in progress.*
+
+After the deletion finishes, the portal no longer lists the group. Only the automatically created `NetworkWatcherRG` remains.
+
+![Azure portal showing only NetworkWatcherRG after the resource group was deleted](../screenshots/13-portal-group-deleted.png)
+*Azure portal showing only NetworkWatcherRG after the resource group was deleted.*
+
 Check whether the group still exists.
 
 ```bash
 az group exists --name rg-cache-aside-lab
 ```
+
+![Azure CLI output showing az group exists returns false](../screenshots/14-group-exists-false.png)
+*Azure CLI output showing az group exists returns false.*
 
 ## Redeploy
 

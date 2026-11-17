@@ -130,6 +130,11 @@ Listing the deployments from PowerShell shows the module deployments succeeded w
 ![Azure CLI output listing the deployments and the failed operation status](screenshots/06-deployment-failed.png)
 *Azure CLI output listing the deployments and the failed operation status.*
 
+The portal showed the same state: four module deployments succeeded while the main deployment was still running.
+
+![Azure portal overview of the resource group during the Southeast Asia attempt](screenshots/10-portal-group-southeast-asia.png)
+*Azure portal overview of the resource group during the Southeast Asia attempt.*
+
 ### Capacity error in Southeast Asia
 
 Azure rejected `Balanced_B0` in Southeast Asia with `CacheCapacityUnavailable`, and the next size up, `Balanced_B1`, failed the same way.
@@ -146,6 +151,26 @@ The fix was to move the deployment to Malaysia West. Existing resources can't ch
 
 ![Azure CLI output showing the deployment outputs including the Redis SKU and tags](screenshots/09-deployment-outputs.png)
 *Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
+
+### Destroy
+
+Delete the resource group when you finish.
+
+![Azure CLI output showing the resource group deletion in progress](screenshots/11-delete-group-in-progress.png)
+*Azure CLI output showing the resource group deletion in progress.*
+
+The portal shows the group in the Deleting state while its resources are removed.
+
+![Azure portal showing the resource group and its resources while deletion is in progress](screenshots/12-portal-group-deleting.png)
+*Azure portal showing the resource group and its resources while deletion is in progress.*
+
+After the deletion finishes, the portal no longer lists the group. Only the automatically created `NetworkWatcherRG` remains.
+
+![Azure portal showing only NetworkWatcherRG after the resource group was deleted](screenshots/13-portal-group-deleted.png)
+*Azure portal showing only NetworkWatcherRG after the resource group was deleted.*
+
+![Azure CLI output showing az group exists returns false](screenshots/14-group-exists-false.png)
+*Azure CLI output showing az group exists returns false.*
 
 ## Differences from the reference architecture
 
