@@ -1,6 +1,6 @@
 using 'main.bicep'
 
-param location = 'southeastasia'
+param location = 'malaysiawest'
 param namePrefix = 'cacheaside'
 param appServiceSku = 'B1'
 param postgresSku = 'Standard_B1ms'

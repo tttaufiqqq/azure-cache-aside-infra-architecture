@@ -2,7 +2,7 @@
 set -euo pipefail
 
 RESOURCE_GROUP="${RESOURCE_GROUP:-rg-cache-aside-lab}"
-LOCATION="${LOCATION:-southeastasia}"
+LOCATION="${LOCATION:-malaysiawest}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 az account show --query "{subscription:name, user:user.name}" -o table

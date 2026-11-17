@@ -32,7 +32,7 @@ Edit `main.bicepparam`, then run `./scripts/deploy.sh` again.
 
 | Parameter | Default | Description |
 |---|---|---|
-| `location` | `southeastasia` | Azure region |
+| `location` | `malaysiawest` | Azure region |
 | `namePrefix` | `cacheaside` | Prefix for resource names |
 | `appServiceSku` | `B1` | App Service plan size |
 | `postgresSku` | `Standard_B1ms` | PostgreSQL compute size |
