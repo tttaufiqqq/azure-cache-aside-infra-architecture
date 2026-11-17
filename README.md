@@ -7,7 +7,7 @@ This is a learning project. It implements the architecture from the Azure Archit
 
 This repository is [azure-cache-aside-infra-architecture](https://github.com/tttaufiqqq/azure-cache-aside-infra-architecture). It contains the Azure infrastructure. The web app lives in a separate repository, [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app).
 
-![Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL](diagrams/architecture.png)
+<img src="diagrams/architecture.png" alt="Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL.*
 
 Diagram adapted from the [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/cache-aside-azure-managed-redis-postgresql).
@@ -102,18 +102,18 @@ The deployment creates about two dozen resources and takes around 10 minutes, an
 
 ### 5.1 Sign in and register the providers
 
-![Azure CLI az login output with the tenant and subscription selection](screenshots/01-az-login.png)
+<img src="screenshots/01-az-login.png" alt="Azure CLI az login output with the tenant and subscription selection" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI az login output with the tenant and subscription selection.*
 
-![Azure CLI output showing the foreach loop that registers the resource providers](screenshots/02-register-providers.png)
+<img src="screenshots/02-register-providers.png" alt="Azure CLI output showing the foreach loop that registers the resource providers" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the foreach loop that registers the resource providers.*
 
-![Azure CLI output showing each provider state with Microsoft.Cache registered](screenshots/03-providers-registered.png)
+<img src="screenshots/03-providers-registered.png" alt="Azure CLI output showing each provider state with Microsoft.Cache registered" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing each provider state with Microsoft.Cache registered.*
 
 Registration can take a few minutes. `Microsoft.Cache` and `Microsoft.DBforPostgreSQL` were the slowest.
 
-![PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering](screenshots/04-provider-registration-progress.png)
+<img src="screenshots/04-provider-registration-progress.png" alt="PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering.*
 
 ### 5.2 The first deploy attempt
@@ -122,54 +122,54 @@ The `what-if` preview lists only the first eight resources. The nested modules f
 
 Running the deploy script from PowerShell opens a separate Git Bash window that closes when the script ends, so the output disappears.
 
-![Git Bash window that opens when the deploy script runs from PowerShell](screenshots/05-deploy-script-git-bash-window.png)
+<img src="screenshots/05-deploy-script-git-bash-window.png" alt="Git Bash window that opens when the deploy script runs from PowerShell" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Git Bash window that opens when the deploy script runs from PowerShell.*
 
 Listing the deployments from PowerShell shows the module deployments succeeded while the main deployment failed.
 
-![Azure CLI output listing the deployments and the failed operation status](screenshots/06-deployment-failed.png)
+<img src="screenshots/06-deployment-failed.png" alt="Azure CLI output listing the deployments and the failed operation status" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output listing the deployments and the failed operation status.*
 
 The portal showed the same state: four module deployments succeeded while the main deployment was still running.
 
-![Azure portal overview of the resource group during the Southeast Asia attempt](screenshots/10-portal-group-southeast-asia.png)
+<img src="screenshots/10-portal-group-southeast-asia.png" alt="Azure portal overview of the resource group during the Southeast Asia attempt" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure portal overview of the resource group during the Southeast Asia attempt.*
 
 ### 5.3 Capacity error in Southeast Asia
 
 Azure rejected `Balanced_B0` in Southeast Asia with `CacheCapacityUnavailable`, and the next size up, `Balanced_B1`, failed the same way.
 
-![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](screenshots/07-redis-sku-b1-retry.png)
+<img src="screenshots/07-redis-sku-b1-retry.png" alt="Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia.*
 
 The fix was to move the deployment to Malaysia West. Existing resources can't change region, so the resource group was deleted and recreated.
 
-![Azure CLI output showing the resource group recreated in Malaysia West](screenshots/08-move-to-malaysia-west.png)
+<img src="screenshots/08-move-to-malaysia-west.png" alt="Azure CLI output showing the resource group recreated in Malaysia West" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the resource group recreated in Malaysia West.*
 
 ### 5.4 Successful deployment
 
-![Azure CLI output showing the deployment outputs including the Redis SKU and tags](screenshots/09-deployment-outputs.png)
+<img src="screenshots/09-deployment-outputs.png" alt="Azure CLI output showing the deployment outputs including the Redis SKU and tags" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
 ### 5.5 Destroy
 
 Delete the resource group when you finish.
 
-![Azure CLI output showing the resource group deletion in progress](screenshots/11-delete-group-in-progress.png)
+<img src="screenshots/11-delete-group-in-progress.png" alt="Azure CLI output showing the resource group deletion in progress" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the resource group deletion in progress.*
 
 The portal shows the group in the Deleting state while its resources are removed.
 
-![Azure portal showing the resource group and its resources while deletion is in progress](screenshots/12-portal-group-deleting.png)
+<img src="screenshots/12-portal-group-deleting.png" alt="Azure portal showing the resource group and its resources while deletion is in progress" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure portal showing the resource group and its resources while deletion is in progress.*
 
 After the deletion finishes, the portal no longer lists the group. Only the automatically created `NetworkWatcherRG` remains.
 
-![Azure portal showing only NetworkWatcherRG after the resource group was deleted](screenshots/13-portal-group-deleted.png)
+<img src="screenshots/13-portal-group-deleted.png" alt="Azure portal showing only NetworkWatcherRG after the resource group was deleted" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure portal showing only NetworkWatcherRG after the resource group was deleted.*
 
-![Azure CLI output showing az group exists returns false](screenshots/14-group-exists-false.png)
+<img src="screenshots/14-group-exists-false.png" alt="Azure CLI output showing az group exists returns false" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing az group exists returns false.*
 
 ## 6. Differences from the reference architecture

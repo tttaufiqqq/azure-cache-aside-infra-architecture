@@ -13,14 +13,14 @@ az deployment operation group list \
   --query "[?properties.provisioningState=='Failed'].properties.statusMessage"
 ```
 
-![Azure CLI output listing the deployments and the failed operation status](../screenshots/06-deployment-failed.png)
+<img src="../screenshots/06-deployment-failed.png" alt="Azure CLI output listing the deployments and the failed operation status" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output listing the deployments and the failed operation status.*
 
 ## 2. The deploy script window closes
 
 **Symptom:** You run `./scripts/deploy.sh` in PowerShell, a Git Bash window opens, and it closes before you can read the result.
 
-![Git Bash window that opens when the deploy script runs from PowerShell](../screenshots/05-deploy-script-git-bash-window.png)
+<img src="../screenshots/05-deploy-script-git-bash-window.png" alt="Git Bash window that opens when the deploy script runs from PowerShell" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Git Bash window that opens when the deploy script runs from PowerShell.*
 
 **Fix:** Check the result from PowerShell.
@@ -39,7 +39,7 @@ To watch the output live, run `az deployment group create` directly, as describe
 
 1. Try the next size by setting `redisSku` to `Balanced_B1` in `main.bicepparam`.
 
-   ![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](../screenshots/07-redis-sku-b1-retry.png)
+   <img src="../screenshots/07-redis-sku-b1-retry.png" alt="Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia" style="border: 1px solid #d0d7de; border-radius: 6px;">
    *Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia.*
 
 1. If that fails too, change `location` to another region that supports Azure Managed Redis.

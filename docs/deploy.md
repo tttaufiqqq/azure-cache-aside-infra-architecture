@@ -6,7 +6,7 @@ This article shows how to deploy the infrastructure, change it, and delete it.
 
 - Sign in with `az login`.
 
-  ![Azure CLI az login output with the tenant and subscription selection](../screenshots/01-az-login.png)
+  <img src="../screenshots/01-az-login.png" alt="Azure CLI az login output with the tenant and subscription selection" style="border: 1px solid #d0d7de; border-radius: 6px;">
   *Azure CLI az login output with the tenant and subscription selection.*
 
 - Select your subscription with `az account set --subscription "<name>"`.
@@ -16,12 +16,12 @@ This article shows how to deploy the infrastructure, change it, and delete it.
   foreach ($p in "Microsoft.Cache","Microsoft.DBforPostgreSQL","Microsoft.Web","Microsoft.Network","Microsoft.OperationalInsights","Microsoft.Insights","Microsoft.ManagedIdentity") { az provider register --namespace $p }
   ```
 
-  ![Azure CLI output showing the foreach loop that registers the resource providers](../screenshots/02-register-providers.png)
+  <img src="../screenshots/02-register-providers.png" alt="Azure CLI output showing the foreach loop that registers the resource providers" style="border: 1px solid #d0d7de; border-radius: 6px;">
   *Azure CLI output showing the foreach loop that registers the resource providers.*
 
   Registration can take a few minutes. Check each provider with `az provider show -n <name> --query registrationState -o tsv`.
 
-  ![Azure CLI output showing each provider state with Microsoft.Cache registered](../screenshots/03-providers-registered.png)
+  <img src="../screenshots/03-providers-registered.png" alt="Azure CLI output showing each provider state with Microsoft.Cache registered" style="border: 1px solid #d0d7de; border-radius: 6px;">
   *Azure CLI output showing each provider state with Microsoft.Cache registered.*
 
 - Confirm that Azure Managed Redis and your chosen SKUs have capacity in the target region. Capacity is only checked at deployment time.
@@ -49,7 +49,7 @@ The script:
 
 If you run the bash script from PowerShell, it opens its own Git Bash window and the output disappears when the script ends. Run the commands directly instead.
 
-![Git Bash window that opens when the deploy script runs from PowerShell](../screenshots/05-deploy-script-git-bash-window.png)
+<img src="../screenshots/05-deploy-script-git-bash-window.png" alt="Git Bash window that opens when the deploy script runs from PowerShell" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Git Bash window that opens when the deploy script runs from PowerShell.*
 
 ```powershell
@@ -81,7 +81,7 @@ RESOURCE_GROUP=my-rg LOCATION=eastasia ./scripts/deploy.sh
 > [!IMPORTANT]
 > You can't change the region of existing resources by redeploying. To switch regions, destroy the resource group first.
 
-![Azure CLI output showing the resource group recreated in Malaysia West](../screenshots/08-move-to-malaysia-west.png)
+<img src="../screenshots/08-move-to-malaysia-west.png" alt="Azure CLI output showing the resource group recreated in Malaysia West" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the resource group recreated in Malaysia West.*
 
 ## 5. Use the outputs
@@ -92,7 +92,7 @@ The deployment prints `appName`, `appUrl`, `postgresHost`, and `redisHost`. Read
 az deployment group show -g rg-cache-aside-lab -n cache-aside --query properties.outputs
 ```
 
-![Azure CLI output showing the deployment outputs including the Redis SKU and tags](../screenshots/09-deployment-outputs.png)
+<img src="../screenshots/09-deployment-outputs.png" alt="Azure CLI output showing the deployment outputs including the Redis SKU and tags" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
 The `cache-aside-app` repository reads `appName` to deploy the app.
@@ -111,17 +111,17 @@ The script asks you to type the resource group name, then runs `az group delete 
 az group delete --name rg-cache-aside-lab --yes
 ```
 
-![Azure CLI output showing the resource group deletion in progress](../screenshots/11-delete-group-in-progress.png)
+<img src="../screenshots/11-delete-group-in-progress.png" alt="Azure CLI output showing the resource group deletion in progress" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing the resource group deletion in progress.*
 
 The portal shows the group in the Deleting state while its resources are removed.
 
-![Azure portal showing the resource group and its resources while deletion is in progress](../screenshots/12-portal-group-deleting.png)
+<img src="../screenshots/12-portal-group-deleting.png" alt="Azure portal showing the resource group and its resources while deletion is in progress" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure portal showing the resource group and its resources while deletion is in progress.*
 
 After the deletion finishes, the portal no longer lists the group. Only the automatically created `NetworkWatcherRG` remains.
 
-![Azure portal showing only NetworkWatcherRG after the resource group was deleted](../screenshots/13-portal-group-deleted.png)
+<img src="../screenshots/13-portal-group-deleted.png" alt="Azure portal showing only NetworkWatcherRG after the resource group was deleted" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure portal showing only NetworkWatcherRG after the resource group was deleted.*
 
 Check whether the group still exists.
@@ -130,7 +130,7 @@ Check whether the group still exists.
 az group exists --name rg-cache-aside-lab
 ```
 
-![Azure CLI output showing az group exists returns false](../screenshots/14-group-exists-false.png)
+<img src="../screenshots/14-group-exists-false.png" alt="Azure CLI output showing az group exists returns false" style="border: 1px solid #d0d7de; border-radius: 6px;">
 *Azure CLI output showing az group exists returns false.*
 
 ## 7. Redeploy
