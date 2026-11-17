@@ -2,7 +2,7 @@
 
 This article explains the resources this project deploys and why each one exists. It follows the [Azure Architecture Center reference architecture](https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/cache-aside-azure-managed-redis-postgresql).
 
-## The cache-aside pattern
+## 1. The cache-aside pattern
 
 The app owns the cache logic. Redis stores copies of data, and PostgreSQL stays the source of truth.
 
@@ -20,7 +20,7 @@ The app owns the cache logic. Redis stores copies of data, and PostgreSQL stays 
 
 If Redis is unavailable, the app reads from PostgreSQL directly. A failed cache operation never fails a committed write.
 
-## Resources
+## 2. Resources
 
 | Resource | Module | Notes |
 |---|---|---|
@@ -32,7 +32,7 @@ If Redis is unavailable, the app reads from PostgreSQL directly. A failed cache 
 | Private endpoints | `modules/private-endpoints.bicep` | One for each data service, with DNS zone groups |
 | App Service | `modules/appservice.bicep` | VNet integration, health check, diagnostics |
 
-## Network flow
+## 3. Network flow
 
 1. App Service sends traffic through its integrated subnet.
 1. Private DNS resolves the Redis and PostgreSQL host names to private IP addresses.
@@ -40,7 +40,7 @@ If Redis is unavailable, the app reads from PostgreSQL directly. A failed cache 
 
 Both data services reject public traffic, so you can't connect to them from your own computer.
 
-## Identity
+## 4. Identity
 
 One user-assigned managed identity authenticates the app to both services.
 
@@ -50,7 +50,7 @@ One user-assigned managed identity authenticates the app to both services.
 > [!NOTE]
 > Making the app identity a PostgreSQL administrator is broader than production least privilege. It avoids a manual SQL step that you can't run against a private-only database.
 
-## Monitoring
+## 5. Monitoring
 
 Each component sends logs and metrics to the Log Analytics workspace. The app also reports to Application Insights. Use these signals to watch for:
 
@@ -59,7 +59,7 @@ Each component sends logs and metrics to the Log Analytics workspace. The app al
 - invalidation failures
 - slow database queries
 
-## Design decisions
+## 6. Design decisions
 
 | Decision | Reason |
 |---|---|

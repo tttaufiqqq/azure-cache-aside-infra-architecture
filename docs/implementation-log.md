@@ -2,7 +2,7 @@
 
 This log records how the infrastructure was planned, deployed, and fixed on 17 November 2026. It lists what happened, what failed, and why each decision was made.
 
-## Goal
+## 1. Goal
 
 Implement the [Azure Architecture Center cache-aside architecture](https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/cache-aside-azure-managed-redis-postgresql) as a learning project. The requirements were:
 
@@ -10,7 +10,7 @@ Implement the [Azure Architecture Center cache-aside architecture](https://learn
 - Define everything as code so the environment can be destroyed and redeployed at any time.
 - Keep two repositories: one for Azure and one for the web app.
 
-## Decisions
+## 2. Decisions
 
 | Decision | Choice | Reason |
 |---|---|---|
@@ -22,7 +22,7 @@ Implement the [Azure Architecture Center cache-aside architecture](https://learn
 | SKUs | App Service B1, PostgreSQL B1ms, Redis Balanced B0 | Smallest sizes that support the design |
 | Name suffix | `uniqueString` of the resource group ID | Avoids global name collisions and stays stable across redeploys |
 
-## Timeline
+## 3. Timeline
 
 | Step | What happened | Result |
 |---|---|---|
@@ -41,20 +41,20 @@ The outputs from step 8 include the Redis SKU and the resource tags.
 ![Azure CLI output showing the deployment outputs including the Redis SKU and tags](../screenshots/09-deployment-outputs.png)
 *Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
-## Problems and fixes
+## 4. Problems and fixes
 
-### Provider registration failed in PowerShell
+### 4.1 Provider registration failed in PowerShell
 
 The `for p in ...; do ... done` loop is bash syntax, and PowerShell rejected it. The fix was the PowerShell `foreach` loop in [Deploy, redeploy, and destroy](deploy.md). Two providers, `Microsoft.Cache` and `Microsoft.DBforPostgreSQL`, took a short while to reach `Registered`.
 
 ![PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering](../screenshots/04-provider-registration-progress.png)
 *PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering.*
 
-### The what-if preview was incomplete
+### 4.2 The what-if preview was incomplete
 
 The preview listed eight resources to create. The postgres, redis, private-endpoints, and app-service modules appeared as `NestedDeploymentShortCircuited` because their inputs depend on values that exist only during deployment. This was expected and not an error.
 
-### The deploy script window closed
+### 4.3 The deploy script window closed
 
 PowerShell passed the bash script to Git Bash, which opened its own window and closed it when the script ended. The result was only visible by running `az deployment group list` afterward. Running `az deployment group create` directly in PowerShell avoids the problem.
 
@@ -64,28 +64,28 @@ PowerShell passed the bash script to Git Bash, which opened its own window and c
 ![Azure CLI output listing the deployments and the failed operation status](../screenshots/06-deployment-failed.png)
 *Azure CLI output listing the deployments and the failed operation status.*
 
-### Redis capacity in Southeast Asia
+### 4.4 Redis capacity in Southeast Asia
 
 Azure rejected `Balanced_B0` and then `Balanced_B1` with `CacheCapacityUnavailable`. Capacity is limited per region and per SKU, and `what-if` can't detect it. Azure Managed Redis supports Malaysia West, so the deployment moved there.
 
 ![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](../screenshots/07-redis-sku-b1-retry.png)
 *Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia.*
 
-### Changing region requires a clean start
+### 4.5 Changing region requires a clean start
 
 Existing resources can't change region through a redeployment. The resource group was deleted before the Malaysia West deployment, and the same resource names were reused because the suffix comes from the resource group ID.
 
 ![Azure CLI output showing the resource group recreated in Malaysia West](../screenshots/08-move-to-malaysia-west.png)
 *Azure CLI output showing the resource group recreated in Malaysia West.*
 
-## What worked
+## 5. What worked
 
 - Postgres, the network, the identity, and monitoring succeeded on the first attempt.
 - The Malaysia West deployment finished in about 10 minutes with `Balanced_B0`.
 - The Redis access policy and the PostgreSQL Entra administrator were created by Bicep with no manual steps.
 - The private endpoints and DNS zone groups resolved correctly, which the app confirmed later by reaching both services.
 
-## Related resources
+## 6. Related resources
 
 - [Deploy, redeploy, and destroy](deploy.md)
 - [Troubleshooting](troubleshooting.md)

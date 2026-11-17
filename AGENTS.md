@@ -10,7 +10,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\ocr-shots.ps1 -Fol
 - The script prints `### <filename>` followed by the recognized text for every PNG in the folder.
 - OCR output is noisy for portal screenshots; use it to identify pages, not to read exact values.
 
-## Conventions
+## 1. Conventions
 
 - Rename screenshots to numbered descriptive names that sort chronologically, e.g. `01-create-resource.png`, `02-deploy-complete.png`.
 - Every `README.md` must reference every image in its `screenshots/` folder with a one-line caption.

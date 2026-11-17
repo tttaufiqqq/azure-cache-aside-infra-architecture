@@ -12,14 +12,14 @@ This repository is [azure-cache-aside-infra-architecture](https://github.com/ttt
 
 Diagram adapted from the [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/cache-aside-azure-managed-redis-postgresql).
 
-## Learning goals
+## 1. Learning goals
 
 - Understand the cache-aside pattern, including its read path, write path, and failure modes.
 - Connect App Service to data services over private endpoints.
 - Authenticate with a managed identity and Microsoft Entra ID instead of passwords or keys.
 - Deploy and delete a complete environment with Bicep.
 
-## What this deploys
+## 2. What this deploys
 
 | Resource | Purpose |
 |---|---|
@@ -33,14 +33,14 @@ Diagram adapted from the [Azure Architecture Center](https://learn.microsoft.com
 
 The default region is Malaysia West. For a full explanation, see [Architecture](docs/architecture.md).
 
-## Prerequisites
+## 3. Prerequisites
 
 - An Azure subscription
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) with Bicep (`az bicep install`)
 - Permission to create resources in your subscription
 - The resource providers `Microsoft.Cache`, `Microsoft.DBforPostgreSQL`, `Microsoft.Web`, `Microsoft.Network`, `Microsoft.OperationalInsights`, `Microsoft.Insights`, and `Microsoft.ManagedIdentity` registered on the subscription
 
-## Quickstart
+## 4. Quickstart
 
 Sign in to Azure first.
 
@@ -48,7 +48,7 @@ Sign in to Azure first.
 az login
 ```
 
-### Bash (Git Bash or WSL)
+### 4.1 Bash (Git Bash or WSL)
 
 1. Deploy the infrastructure.
 
@@ -66,7 +66,7 @@ az login
    ./scripts/destroy.sh
    ```
 
-### PowerShell
+### 4.2 PowerShell
 
 The scripts are bash scripts, so PowerShell hands them to Git Bash, which closes its window when the script ends. Run the Azure CLI commands directly instead, so you can read the output.
 
@@ -96,11 +96,11 @@ For more detail, see [Deploy, redeploy, and destroy](docs/deploy.md).
 > [!WARNING]
 > Azure Managed Redis, PostgreSQL, App Service, and private endpoints all bill while they exist. Delete the resource group when you finish.
 
-## Results
+## 5. Results
 
 The deployment creates about two dozen resources and takes around 10 minutes, and Azure Managed Redis is the slowest part.
 
-### Sign in and register the providers
+### 5.1 Sign in and register the providers
 
 ![Azure CLI az login output with the tenant and subscription selection](screenshots/01-az-login.png)
 *Azure CLI az login output with the tenant and subscription selection.*
@@ -116,7 +116,7 @@ Registration can take a few minutes. `Microsoft.Cache` and `Microsoft.DBforPostg
 ![PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering](screenshots/04-provider-registration-progress.png)
 *PowerShell output showing Microsoft.Cache and Microsoft.DBforPostgreSQL still registering.*
 
-### The first deploy attempt
+### 5.2 The first deploy attempt
 
 The `what-if` preview lists only the first eight resources. The nested modules for PostgreSQL, Redis, private endpoints, and App Service depend on values that exist only at deployment time, so `what-if` skips them and reports `NestedDeploymentShortCircuited`.
 
@@ -135,7 +135,7 @@ The portal showed the same state: four module deployments succeeded while the ma
 ![Azure portal overview of the resource group during the Southeast Asia attempt](screenshots/10-portal-group-southeast-asia.png)
 *Azure portal overview of the resource group during the Southeast Asia attempt.*
 
-### Capacity error in Southeast Asia
+### 5.3 Capacity error in Southeast Asia
 
 Azure rejected `Balanced_B0` in Southeast Asia with `CacheCapacityUnavailable`, and the next size up, `Balanced_B1`, failed the same way.
 
@@ -147,12 +147,12 @@ The fix was to move the deployment to Malaysia West. Existing resources can't ch
 ![Azure CLI output showing the resource group recreated in Malaysia West](screenshots/08-move-to-malaysia-west.png)
 *Azure CLI output showing the resource group recreated in Malaysia West.*
 
-### Successful deployment
+### 5.4 Successful deployment
 
 ![Azure CLI output showing the deployment outputs including the Redis SKU and tags](screenshots/09-deployment-outputs.png)
 *Azure CLI output showing the deployment outputs including the Redis SKU and tags.*
 
-### Destroy
+### 5.5 Destroy
 
 Delete the resource group when you finish.
 
@@ -172,7 +172,7 @@ After the deletion finishes, the portal no longer lists the group. Only the auto
 ![Azure CLI output showing az group exists returns false](screenshots/14-group-exists-false.png)
 *Azure CLI output showing az group exists returns false.*
 
-## Differences from the reference architecture
+## 6. Differences from the reference architecture
 
 | Reference architecture | This project | Reason |
 |---|---|---|
@@ -181,14 +181,14 @@ After the deletion finishes, the portal no longer lists the group. Only the auto
 | Least-privilege database roles | App identity is a PostgreSQL Entra administrator | Lets the app create its own schema |
 | Durable invalidation, such as an outbox | Not implemented | The TTL limits stale data |
 
-## What I learned
+## 7. What I learned
 
 - Capacity is a regional and per-SKU limit. `Balanced_B0` and `Balanced_B1` were both unavailable in Southeast Asia, but `Balanced_B0` deployed in Malaysia West.
 - You can't change the region of existing resources by redeploying. Delete the resource group and create it again.
 - `what-if` can't preview nested modules that depend on other modules' outputs.
 - Running a bash script from PowerShell opens a separate Git Bash window that closes when the script ends, so the output disappears.
 
-## Related resources
+## 8. Related resources
 
 - [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app): the web app repository
 - [Implementation log](docs/implementation-log.md)

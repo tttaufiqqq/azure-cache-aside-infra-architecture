@@ -2,7 +2,7 @@
 
 This article shows how to deploy the infrastructure, change it, and delete it.
 
-## Before you begin
+## 1. Before you begin
 
 - Sign in with `az login`.
 
@@ -26,7 +26,7 @@ This article shows how to deploy the infrastructure, change it, and delete it.
 
 - Confirm that Azure Managed Redis and your chosen SKUs have capacity in the target region. Capacity is only checked at deployment time.
 
-## Deploy with the script
+## 2. Deploy with the script
 
 Run the deploy script from the repository root in Git Bash or WSL.
 
@@ -45,7 +45,7 @@ The script:
 > [!NOTE]
 > The preview doesn't list every resource. The nested modules depend on values that exist only during deployment, so `what-if` skips them.
 
-## Deploy with PowerShell
+## 3. Deploy with PowerShell
 
 If you run the bash script from PowerShell, it opens its own Git Bash window and the output disappears when the script ends. Run the commands directly instead.
 
@@ -59,7 +59,7 @@ az deployment group create --name cache-aside --resource-group rg-cache-aside-la
 
 Deployment takes about 10 minutes because Redis and PostgreSQL provision slowly.
 
-## Change the configuration
+## 4. Change the configuration
 
 Edit `main.bicepparam`, then deploy again.
 
@@ -84,7 +84,7 @@ RESOURCE_GROUP=my-rg LOCATION=eastasia ./scripts/deploy.sh
 ![Azure CLI output showing the resource group recreated in Malaysia West](../screenshots/08-move-to-malaysia-west.png)
 *Azure CLI output showing the resource group recreated in Malaysia West.*
 
-## Use the outputs
+## 5. Use the outputs
 
 The deployment prints `appName`, `appUrl`, `postgresHost`, and `redisHost`. Read them again at any time.
 
@@ -97,7 +97,7 @@ az deployment group show -g rg-cache-aside-lab -n cache-aside --query properties
 
 The `cache-aside-app` repository reads `appName` to deploy the app.
 
-## Destroy
+## 6. Destroy
 
 Run the destroy script in Git Bash or WSL.
 
@@ -133,6 +133,6 @@ az group exists --name rg-cache-aside-lab
 ![Azure CLI output showing az group exists returns false](../screenshots/14-group-exists-false.png)
 *Azure CLI output showing az group exists returns false.*
 
-## Redeploy
+## 7. Redeploy
 
 After deletion finishes, deploy again. The name suffix comes from the resource group ID, so a recreated group in the same subscription reuses the same names.
