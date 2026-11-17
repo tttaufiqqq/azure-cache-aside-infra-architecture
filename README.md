@@ -5,7 +5,7 @@ This is a learning project. It implements the architecture from the Azure Archit
 > [!NOTE]
 > This is a personal learning implementation. It is not official Microsoft guidance.
 
-This repository contains the Azure infrastructure. The web app lives in a separate repository, [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app).
+This repository is [azure-cache-aside-infra-architecture](https://github.com/tttaufiqqq/azure-cache-aside-infra-architecture). It contains the Azure infrastructure. The web app lives in a separate repository, [cache-aside-app](https://github.com/tttaufiqqq/azure-cache-aside-app).
 
 ![Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL](diagrams/architecture.png)
 *Architecture diagram of the cache-aside pattern with Azure Managed Redis and Azure Database for PostgreSQL.*
