@@ -13,11 +13,40 @@ az deployment operation group list \
   --query "[?properties.provisioningState=='Failed'].properties.statusMessage"
 ```
 
+![Azure CLI output listing the deployments and the failed operation status](../screenshots/06-deployment-failed.png)
+
+## The deploy script window closes
+
+**Symptom:** You run `./scripts/deploy.sh` in PowerShell, a Git Bash window opens, and it closes before you can read the result.
+
+![Git Bash window that opens when the deploy script runs from PowerShell](../screenshots/05-deploy-script-git-bash-window.png)
+
+**Fix:** Check the result from PowerShell.
+
+```powershell
+az deployment group list -g rg-cache-aside-lab --query "[].{name:name,state:properties.provisioningState}" -o table
+```
+
+To watch the output live, run `az deployment group create` directly, as described in [Deploy, redeploy, and destroy](deploy.md).
+
+## CacheCapacityUnavailable
+
+**Symptom:** Redis fails with `CacheCapacityUnavailable` and a message that the SKU is not available in the region due to insufficient capacity.
+
+**Fix:** Capacity is limited per region and per SKU.
+
+1. Try the next size by setting `redisSku` to `Balanced_B1` in `main.bicepparam`.
+
+   ![Azure CLI output showing the redisSku change to Balanced_B1 and the failed redeploy in Southeast Asia](../screenshots/07-redis-sku-b1-retry.png)
+
+1. If that fails too, change `location` to another region that supports Azure Managed Redis.
+1. Because existing resources can't move, delete the resource group before you deploy to a different region.
+
 ## The region or SKU is unavailable
 
-**Symptom:** Redis or PostgreSQL fails to create with a capacity, region, or SKU error.
+**Symptom:** PostgreSQL or App Service fails with a capacity, region, or quota error.
 
-**Fix:** Change `location` or the SKU in `main.bicepparam`. Check that Azure Managed Redis is available in the region you choose.
+**Fix:** Change `location` or the SKU in `main.bicepparam`. Free trial subscriptions have stricter quotas.
 
 ## The app resolves a public IP address
 
